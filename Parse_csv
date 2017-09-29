@@ -1,0 +1,87 @@
+# -*- coding:utf-8 -*-
+
+import os
+import unicodecsv
+import pandas as pd
+import csv
+
+DATADIR = ""
+DATAFILE = "beatles-diskography.csv"
+
+def parse_file(datafile):
+    data = []
+    with open(datafile, "r") as f:
+        header = f.readline().split(",")
+        counter = 0
+        for line in f:
+            if counter == 10:
+                break
+            fields = line.split(",")
+            entry = {}
+
+            for i, value in enumerate(fields):
+                entry[header[i].strip()] = value.strip()
+
+            data.append(entry)
+            counter += 1
+    return data
+
+# use csv module parse csv file
+def csv_parse_file(datafile):
+    with open(datafile, 'rb') as f:
+        r = csv.DictReader(f)
+        return list(r)
+
+# use unicodecsv parse csv file
+def unicodecsv_parse_csv(datafile):
+    with open(datafile, "r") as f:
+        reader = unicodecsv.DictReader(f)
+        return list(reader)
+
+# use pandas parse csv file
+def pandas_parse_csv(datafile):
+    df = pd.read_csv(datafile)
+    return df
+
+# parse csv file
+def test():
+    # a simple test of you implemetation
+    datafile = os.path.join(DATADIR, DATAFILE)
+    d = parse_file(datafile)
+    e = unicodecsv_parse_csv(datafile)
+    df = pandas_parse_csv(datafile)
+
+    c = csv_parse_file(datafile)
+
+    firstline = {'Title': 'Please Please Me', 'UK Chart Position': '1', 'Label': 'Parlophone(UK)',
+                 'Released': '22 March 1963', 'US Chart Position': '-', 'RIAA Certification': 'Platinum',
+                 'BPI Certification': 'Gold'}
+    tenthline = {'Title': '', 'UK Chart Position': '1', 'Label': 'Parlophone(UK)', 'Released': '10 July 1964',
+                 'US Chart Position': '-', 'RIAA Certification': '', 'BPI Certification': 'Gold'}
+
+    assert d[0] == firstline
+    assert d[9] == tenthline
+
+    assert e[0] == firstline
+    assert e[9] == tenthline
+    print "print e 9"
+    print e[9]
+    print  "tenthline"
+    print tenthline
+    print "The first line"
+    print df.iloc[0]
+    print type(df.iloc[0])
+    print "the ten row"
+    print df.iloc[9]
+    print df.loc[9]
+    print tenthline
+    assert dict(df.iloc[0]) == firstline
+    #assert dict(df.iloc[9]) == tenthline
+    print "test csv module"
+    print c[0]
+    print c[9]
+    assert c[0] == firstline
+    assert c[9] == tenthline
+
+if __name__ == "__main__":
+    test()
