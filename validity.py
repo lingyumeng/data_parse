@@ -51,7 +51,7 @@ def process_file(input_file, output_good, output_bad):
                     continue
 
                 datestr = line['productionStartYear'][:10]
-                print datestr
+                print(datestr)
 
                 if is_date(datestr):
                     if int(datestr[:4]) > 1886 and int(datestr[:4]) < 2004:
@@ -67,8 +67,8 @@ def process_file(input_file, output_good, output_bad):
                 break
 
         # COMPLETE THIS FUNCTION
-    print len(g_list)
-    print len(b_list)
+    print(len(g_list))
+    print(len(b_list))
 
     # This is just an example on how you can use csv.DictWriter
     # Remember that you have to output 2 files

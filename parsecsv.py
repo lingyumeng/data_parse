@@ -27,16 +27,16 @@ def parse_file(datafile):
         reader = csv.reader(f)
         first_line = reader.next()
         name = first_line[1]
-        print name
+        print(name)
 
         str = reader.next()
-        print str
+        print(str)
 
         data = list(reader)
 
-        print data[0][1]
-        print data[2][0]
-        print data[2][5]
+        print(data[0][1])
+        print(data[2][0])
+        print(data[2][5])
 
     # Do not change the line below
     return (name, data)
