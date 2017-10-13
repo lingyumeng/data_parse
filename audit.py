@@ -11,10 +11,64 @@ FIELDS =  ["name", "timeZone_label", "utcOffset", "homepage", "governmentType_la
           "maximumElevation", "minimumElevation", "populationDensity",
           "wgs84_pos#lat", "wgs84_pos#long", "areaLand", "areaMetro", "areaUrban"]
 
+def is_None(str):
+    if str == "NULL" or str == "":
+        return True
+    elif str is None:
+        return True
+    else:
+        return False
+def is_array(str):
+    str = str.strip()
+    if str.startswith("{"):
+        return True
+    else:
+        return False
+
+def is_int(str):
+    try:
+        int(str)
+        return True
+    except ValueError:
+        return False
+
+def is_float(str):
+    try:
+        float(str)
+        if is_int(str):
+            return False
+        else:
+            return True
+    except ValueError:
+        return False
+
+
 def audit_file(filename, fields):
     fieldtypes = {}
 
-    # YOUR CODE HERE
+    for key in fields:
+        fieldtypes[key] = set()
+
+
+    with open(filename, 'r') as f:
+        reader = csv.DictReader(f)
+        for i in range(3):
+            reader.next()
+
+
+        for row in reader:
+            for clomunname in FIELDS:
+                #print(row[clomunname])
+                if is_None(row[clomunname]):
+                    fieldtypes[clomunname].add(type(None))
+                elif is_array(row[clomunname]):
+                    fieldtypes[clomunname].add(type([]))
+                elif is_float(row[clomunname]):
+                    fieldtypes[clomunname].add(type(1.1))
+                elif is_int(row[clomunname]):
+                    fieldtypes[clomunname].add(type(1))
+                else:
+                    fieldtypes[clomunname].add(type("string"))
 
     return fieldtypes
 
