@@ -39,7 +39,7 @@ def parse_file(datafile):
     for i in range(sheet.ncols - 1):
         areas.append(sheet.cell_value(0, i))
 
-    print areas
+    print(areas)
 
     time_cv = sheet.col_values(0, start_rowx=1, end_rowx=None)
 
@@ -78,7 +78,7 @@ def test():
     datafile = os.path.join(DATADIR, DATAFILE)
     open_zip(datafile)
     data = parse_file(datafile)
-    print data
+    print(data)
     save_file(data, outfile)
 
     number_of_rows = 0

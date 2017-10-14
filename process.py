@@ -81,7 +81,7 @@ def test():
     #assert data[-1]["flights"] == {'international': 108289, 'domestic': 701425}
 
     #print data
-    print "... success!"
+    print("... success!")
 
 if __name__ == '__main__':
     test()
