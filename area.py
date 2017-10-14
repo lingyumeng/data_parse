@@ -7,8 +7,60 @@ import pprint
 
 CITIES = 'cities.csv'
 
+def is_None(str):
+    if str == "NULL" or str == "":
+        return True
+    elif str is None:
+        return True
+    else:
+        return False
+def is_array(str):
+    str = str.strip()
+    if str.startswith("{"):
+        return True
+    else:
+        return False
+
+def is_int(str):
+    try:
+        int(str)
+        return True
+    except ValueError:
+        return False
+
+def is_float(str):
+    try:
+        float(str)
+        if is_int(str):
+            return False
+        else:
+            return True
+    except ValueError:
+        return False
+
+def list_to_flost(str):
+    str=str.strip()
+    str=str.replace('{', '')
+    str=str.replace('}', '')
+    print(str)
+    area_array = str.split('|')
+    lengh_0 = len(area_array[0].split('e')[0])
+    lengh_1 = len(area_array[1].split('e')[0])
+
+    if lengh_0 > lengh_1:
+        return float(area_array[0])
+    else:
+        return float(area_array[1])
+
+
+
 def fix_area(area):
-    # YOUR CODE HERE
+    if is_None(area):
+        area = None
+    elif is_float(area):
+        area = float(area)
+    elif is_array(area):
+        area = list_to_flost(area)
 
     return area
 
@@ -27,7 +79,10 @@ def process_file(filename):
         for line in reader:
             # calling your function to fix the area value
             if "areaLand" in line:
+                print(line["areaLand"])
                 line["areaLand"] = fix_area(line["areaLand"])
+                print(line["areaLand"])
+                #print(type(line["areaLand"]))
             data.append(line)
 
     return data
